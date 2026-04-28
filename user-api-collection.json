@@ -1,0 +1,155 @@
+{
+  "info": {
+    "_postman_id": "d30b4c79-52c6-4347-8ea8-b52d49ef059f",
+    "name": "MyCollection1",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "17728896"
+  },
+  "item": [
+    {
+      "name": "MiniProject1Login",
+      "item": [
+        {
+          "name": "Login",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "let response = pm.response.json();\r",
+                  "let token = response.token; // Changed from response.data.access_token to response.token\r",
+                  "if (token) {\r",
+                  "    pm.environment.set(\"auth_token\", token);\r",
+                  "    console.log(\"Token:\", token);\r",
+                  "} else {\r",
+                  "    console.error(\"Access token is not defined.\");\r",
+                  "}\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "pub_d79e2635f50451b57e5eabe4a7ec4504407cced4b07db8ff1cacf6ce15dcfff2",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer <key>",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"cityslicka\"\r\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/login",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "login"
+              ]
+            }
+          },
+          "response": []
+        },
+        {
+          "name": "GET User",
+          "event": [
+            {
+              "listen": "prerequest",
+              "script": {
+                "exec": [
+                  "\r",
+                  "// Set current timestamp for request\r",
+                  "pm.environment.set(\"Timestamp\", new Date().getTime());\r",
+                  "console.log(\"Timestamp:\", new Date().getTime());\r",
+                  ""
+                ],
+                "type": "text/javascript",
+                "packages": {},
+                "requests": {}
+              }
+            }
+          ],
+          "protocolProfileBehavior": {
+            "disableBodyPruning": true
+          },
+          "request": {
+            "auth": {
+              "type": "bearer",
+              "bearer": [
+                {
+                  "key": "token",
+                  "value": "{{auth_token}}",
+                  "type": "string"
+                }
+              ]
+            },
+            "method": "GET",
+            "header": [
+              {
+                "key": "x-api-key",
+                "value": "pub_d79e2635f50451b57e5eabe4a7ec4504407cced4b07db8ff1cacf6ce15dcfff2",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              },
+              {
+                "key": "Authorization",
+                "value": "",
+                "type": "text",
+                "disabled": true
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\r\n    \"email\": \"eve.holt@reqres.in\",\r\n    \"password\": \"cityslicka\"\r\n}"
+            },
+            "url": {
+              "raw": "{{baseURL}}/api/users?page=2",
+              "host": [
+                "{{baseURL}}"
+              ],
+              "path": [
+                "api",
+                "users"
+              ],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "2"
+                }
+              ]
+            }
+          },
+          "response": []
+        }
+      ]
+    }
+  ]
+}
